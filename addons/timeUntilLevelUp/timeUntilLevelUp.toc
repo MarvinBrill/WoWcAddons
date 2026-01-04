@@ -1,0 +1,7 @@
+## Interface: 11501
+## Title: TimeUntilLevelUp
+## Notes: Tracks time and XP chunks until level up.
+## Author: Mawwn
+## Version: 1.0
+
+timeUntilLevelUp.lua
