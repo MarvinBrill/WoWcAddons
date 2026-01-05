@@ -1,0 +1,8 @@
+## Interface: 11501
+## Title: MobAnalyzer
+## Notes: Analyzes target mob statistics (TTK, Speed, Difficulty, etc.)
+## SavedVariables: MobAnalyzerDB
+## Author: Mawwn
+## Version: 1.0
+
+mobAnalyzer.lua

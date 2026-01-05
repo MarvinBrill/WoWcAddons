@@ -128,7 +128,7 @@ local function OnTimerUpdate()
         RateText:SetText(string.format("XP/Hr: %d", math.floor(xpPerHour)))
     elseif timeElapsed > 0 then
         TimeText:SetText("Time Left: ...")
-        RateText:SetText("XP/Hr: 0")
+        RateText:SetText("XP/Hr: ...")
     end
 end
 
@@ -165,7 +165,8 @@ TimerButton:SetScript("OnClick", function()
         -- Stop/Reset
         timerRunning = false
         TimerButton:SetText("Start Timer")
-        TimeText:SetText("Time Left: Paused")
+        TimeText:SetText("Time Left: ...")
+        RateText:SetText("XP/Hr: ...")
     else
         -- Start
         timerRunning = true
@@ -176,3 +177,36 @@ TimerButton:SetScript("OnClick", function()
         RateText:SetText("XP/Hr: Calculating...")
     end
 end)
+
+-- --- Scaling Feature ---
+
+MainFrame:EnableMouseWheel(true)
+MainFrame:SetScript("OnMouseWheel", function(self, delta)
+    if IsControlKeyDown() then
+        local currentScale = self:GetScale()
+        local newScale = currentScale + (delta * 0.1)
+        if newScale < 0.5 then newScale = 0.5 end
+        if newScale > 3.0 then newScale = 3.0 end
+        self:SetScale(newScale)
+    end
+end)
+
+-- --- Slash Commands ---
+SLASH_TIMEUNTILLEVELUP1 = "/tulu"
+SlashCmdList["TIMEUNTILLEVELUP"] = function(msg)
+    local command, rest = msg:match("^(%S*)%s*(.-)$")
+    
+    if command == "scale" and rest ~= "" then
+        local scale = tonumber(rest)
+        if scale and scale >= 0.5 and scale <= 3.0 then
+            MainFrame:SetScale(scale)
+            print("TimeUntilLevelUp: Scale set to " .. scale)
+        else
+            print("TimeUntilLevelUp: Invalid scale. Use a number between 0.5 and 3.0")
+        end
+    else
+        print("TimeUntilLevelUp Commands:")
+        print("  /tulu scale <number> - Set the window scale (0.5 to 3.0)")
+        print("  Or hold CTRL and scroll mouse wheel over the window.")
+    end
+end
